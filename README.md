@@ -11,9 +11,9 @@ Si eres usuario de PS3 con Homebrew, sabrás que a veces las portadas de los jue
 
     🌆 Personalizar Portadas: Modifica el fondo que se ve al seleccionar un juego (PIC0.PNG, PIC1.PNG, PIC2.PNG).
 
-    🧹 Limpieza de XMB: Elimina sonidos molestos (SND0.AT3) o videos de inicio de juego (ICON1.PAM) que ralentizan el menú.
+    🧹 Limpieza de XMB: Elimina sonidos molestos (SND0.AT3) o videos de inicio de juego (ICON1.PAM).
 
-    📥 Descarga Directa: ¿Te gusta el icono de un juego y lo quieres en tu celular? Puedes descargarlo directamente desde la PS3 a tu galería con un solo botón.
+    📥 Descarga Directa: ¿lo quieres en tu celular? Puedes descargarlo directamente desde la PS3 a tu galería con un solo botón.
 
 🚀 Cómo se utiliza
 1. Preparación en la PS3
