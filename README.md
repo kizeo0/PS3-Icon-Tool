@@ -3,9 +3,7 @@
 PS3 Icon Tool es una aplicación de Android diseñada para personalizar la apariencia de tus juegos instalados en una PlayStation 3 (HEN/CFW) de forma remota, rápida y sin necesidad de usar una computadora o memorias USB.
 
 Con esta herramienta, puedes cambiar iconos y fondos de pantalla del XMB directamente desde la galería de tu celular a través de una conexión FTP.
-✨ ¿Para qué sirve?
 
-Si eres usuario de PS3 con Homebrew, sabrás que a veces las portadas de los juegos no se ven bien o simplemente quieres darle un toque único a tu consola. Esta app te permite:
 
     🖼️ Cambiar Iconos: Actualiza el ICON0.PNG de cualquier juego.
 
@@ -13,7 +11,7 @@ Si eres usuario de PS3 con Homebrew, sabrás que a veces las portadas de los jue
 
     🧹 Limpieza de XMB: Elimina sonidos molestos (SND0.AT3) o videos de inicio de juego (ICON1.PAM).
 
-    📥 Descarga Directa: ¿lo quieres en tu celular? Puedes descargarlo directamente desde la PS3 a tu galería con un solo botón.
+    📥 Descarga e Edición Directa: ¿lo quieres en tu celular? La aplicación se encarga de el redimensionamiento automático dependiendo de cada tipo seleccionado
 
 🚀 Cómo se utiliza
 1. Preparación en la PS3
@@ -58,4 +56,4 @@ Si eres usuario de PS3 con Homebrew, sabrás que a veces las portadas de los jue
 
 📜 Créditos
 
-Desarrollado por KiZeo. Herramienta creada para la comunidad de preservación y personalización de PS3.
+Herramienta creada para la comunidadcon ayuda de inteligencia artificial para la personalización de PS3.
