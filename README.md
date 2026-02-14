@@ -5,8 +5,14 @@ PS3 Icon Tool es una aplicación de Android diseñada para personalizar la apari
 Con esta herramienta, puedes cambiar iconos y fondos de pantalla del XMB directamente desde la galería de tu celular a través de una conexión FTP.
 
 
+<p align="center">
+    <img width="25%" height="25%" alt="logo2" src="https://github.com/user-attachments/assets/ac64cd8e-18d2-476b-b680-1bad1db2f3aa" />
+</p>
 
-<img width="200" height="200" alt="image" src="https://github.com/user-attachments/assets/ac64cd8e-18d2-476b-b680-1bad1db2f3aa" />
+<h1 align="center"> PS3 Icon Tool 1.2 </h1>
+<p  align="center">
+</p>
+
 
 
 
