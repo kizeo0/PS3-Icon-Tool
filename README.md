@@ -12,6 +12,8 @@ Con esta herramienta, puedes cambiar iconos y fondos de pantalla del XMB directa
 
     🖼️ Cambiar Iconos: Actualiza el ICON0.PNG de cualquier juego.
 
+    📜 Ahora permite editar el nombre de los juegos del xmb
+
     🌆 Personalizar Portadas: Modifica el fondo que se ve al seleccionar un juego (PIC0.PNG, PIC1.PNG, PIC2.PNG).
 
     🧹 Limpieza de XMB: Elimina sonidos molestos (SND0.AT3) o videos de inicio de juego (ICON1.PAM).
