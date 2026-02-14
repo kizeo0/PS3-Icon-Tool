@@ -6,13 +6,12 @@ Con esta herramienta, puedes cambiar iconos y fondos de pantalla del XMB directa
 
 
 <p align="center">
-    <img width="25%" height="25%" alt="logo2" src="https://github.com/user-attachments/assets/ac64cd8e-18d2-476b-b680-1bad1db2f3aa" />
+    <img width="25%" height="25%" alt="logo2" src="https://github.com/user-attachments/assets/48975830-fb01-4b69-a7e7-de9fb1d5e977" />
 </p>
 
 <h1 align="center"> PS3 Icon Tool 1.2 </h1>
 <p  align="center">
 </p>
-
 
 
 
