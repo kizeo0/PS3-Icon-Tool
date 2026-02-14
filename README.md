@@ -51,6 +51,11 @@ Con esta herramienta, puedes cambiar iconos y fondos de pantalla del XMB directa
 
     Una vez que la app confirme el mensaje de "¡Actualizado!", reinicia tu consola o entra y sale de una aplicación para que el XMB refresque las imágenes.
 
+
+
+   <img width="1911" height="1008" alt="image" src="https://github.com/user-attachments/assets/5aad7920-8aa5-45c0-8fee-cac47cbe4002" />
+
+
 🛠️ Requisitos
 
     Dispositivo Android con versión 7.0 o superior.
