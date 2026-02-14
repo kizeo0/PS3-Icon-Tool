@@ -6,7 +6,7 @@ Con esta herramienta, puedes cambiar iconos y fondos de pantalla del XMB directa
 
 
 
-                                            <img width="200" height="200" alt="image" src="https://github.com/user-attachments/assets/ac64cd8e-18d2-476b-b680-1bad1db2f3aa" />
+<img width="200" height="200" alt="image" src="https://github.com/user-attachments/assets/ac64cd8e-18d2-476b-b680-1bad1db2f3aa" />
 
 
 
