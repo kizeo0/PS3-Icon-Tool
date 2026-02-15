@@ -73,4 +73,4 @@ Con esta herramienta, puedes cambiar iconos y fondos de pantalla del XMB directa
 
 📜 Créditos
 
-Herramienta creada para la comunidadcon ayuda de inteligencia artificial para la personalización de PS3.
+Herramienta creada para la comunidad.
