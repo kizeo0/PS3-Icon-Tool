@@ -113,7 +113,6 @@ fun PantallaPrincipal() {
 
     Column(modifier = Modifier.fillMaxSize().statusBarsPadding().padding(horizontal = 16.dp)) {
 
-        // --- SECCIÓN SUPERIOR ---
         Column(modifier = Modifier.weight(1f, fill = false).verticalScroll(scrollStateTop)) {
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -156,7 +155,11 @@ fun PantallaPrincipal() {
                 val animScale by animateFloatAsState(if (hayCambios) 1.15f else 1f)
                 IconButton(onClick = { scope.launch { cargando = true; var exito = true
                     if (previewBmp != originalBmp && previewBmp != null) exito = subirArchivo(ip, carpetaSeleccionada, modoActual, previewBmp!!, context)
-                    if (nombreJuego != nombreOriginal && nombreJuego.isNotEmpty() && exito) { if (modificarNombreSFO(ip, carpetaSeleccionada, nombreJuego)) { nombreOriginal = nombreJuego } else exito = false }
+                    if (nombreJuego != nombreOriginal && nombreJuego.isNotEmpty() && exito) {
+                        if (modificarNombreSFO(ip, carpetaSeleccionada, nombreJuego)) {
+                            nombreOriginal = nombreJuego
+                        } else exito = false
+                    }
                     if (exito) { archivosEnPS3 += modoActual; originalBmp = previewBmp }; cargando = false } }, enabled = hayCambios, modifier = Modifier.size(55.dp)) {
                     Icon(Icons.Default.CheckCircle, "Aplicar", tint = if (hayCambios) VerdeCheck else Color.White.copy(0.1f), modifier = Modifier.size(50.dp).scale(animScale))
                 }
@@ -181,14 +184,14 @@ fun PantallaPrincipal() {
             )
         }
 
-        // --- LISTA DE JUEGOS (4 COLUMNAS - AJUSTADO) ---
+        // --- LISTA DE JUEGOS (4 COLUMNAS) ---
         Text("LISTA DE JUEGOS", color = Color.Gray, fontSize = 10.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 4.dp))
 
         LazyVerticalGrid(
-            columns = GridCells.Fixed(4), // 4 Carpetas por fila
+            columns = GridCells.Fixed(4),
             modifier = Modifier.fillMaxWidth().height(250.dp).padding(bottom = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp), // Espacio entre columnas
-            verticalArrangement = Arrangement.spacedBy(10.dp)   // Espacio entre filas
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             items(carpetas) { item ->
                 val sel = item == carpetaSeleccionada
@@ -204,22 +207,15 @@ fun PantallaPrincipal() {
                     Box(modifier = Modifier.size(70.dp).background(colorIcono, RoundedCornerShape(10.dp)).border(if(sel) 2.dp else 0.dp, Color.White, RoundedCornerShape(10.dp)), contentAlignment = Alignment.Center) {
                         Icon(Icons.Default.List, null, tint = Color.White, modifier = Modifier.size(30.dp))
                     }
-                    Text(
-                        text = item,
-                        fontSize = 8.sp,
-                        color = Color.White,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(top = 2.dp).fillMaxWidth()
-                    )
+                    Text(text = item, fontSize = 8.sp, color = Color.White, maxLines = 1, overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center, modifier = Modifier.padding(top = 2.dp).fillMaxWidth())
                 }
             }
         }
     }
 }
 
-// --- FUNCIONES FTP (SE MANTIENEN IGUAL) ---
+// --- LÓGICA DE EDICIÓN SFO SIN RECONSTRUCCIÓN ---
+
 suspend fun obtenerNombreSFO(ip: String, carp: String): String = withContext(Dispatchers.IO) {
     val ftp = FTPClient()
     try {
@@ -230,9 +226,13 @@ suspend fun obtenerNombreSFO(ip: String, carp: String): String = withContext(Dis
         val kTO = buffer.getInt(0x08); val dTO = buffer.getInt(0x0C); val count = buffer.getInt(0x10)
         for (i in 0 until count) {
             val kO = buffer.getShort(0x14 + (i * 16)).toInt() and 0xFFFF
-            val dO = buffer.getInt(0x14 + (i * 16) + 0x0C); val kB = StringBuilder(); var k = kTO + kO
-            while (data[k] != 0.toByte()) { kB.append(data[k].toInt().toChar()); k++ }
-            if (kB.toString() == "TITLE") { val s = dTO + dO; var e = s; while (data[e] != 0.toByte()) e++; return@withContext String(data, s, e - s, Charsets.UTF_8) }
+            val dO = buffer.getInt(0x14 + (i * 16) + 0x0C)
+            val kB = StringBuilder(); var k = kTO + kO
+            while (k < data.size && data[k] != 0.toByte()) { kB.append(data[k].toInt().toChar()); k++ }
+            if (kB.toString() == "TITLE") {
+                val s = dTO + dO; var e = s; while (e < data.size && data[e] != 0.toByte()) e++
+                return@withContext String(data, s, e - s, Charsets.UTF_8)
+            }
         }
         "Sin Nombre"
     } catch (e: Exception) { "Error SFO" }
@@ -242,17 +242,49 @@ suspend fun modificarNombreSFO(ip: String, carp: String, nuevoNombre: String): B
     val ftp = FTPClient()
     try {
         ftp.connect(ip, 21); ftp.login("anonymous", ""); ftp.setFileType(FTP.BINARY_FILE_TYPE)
-        val inputStream = ftp.retrieveFileStream("/dev_hdd0/game/$carp/PARAM.SFO"); val data = inputStream.readBytes(); inputStream.close(); ftp.completePendingCommand()
+        val inputStream = ftp.retrieveFileStream("/dev_hdd0/game/$carp/PARAM.SFO")
+        val data = inputStream.readBytes(); inputStream.close(); ftp.completePendingCommand()
+
         val buffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN)
-        val kTO = buffer.getInt(0x08); val dTO = buffer.getInt(0x0C); val count = buffer.getInt(0x10)
+        val keyTableOffset = buffer.getInt(0x08)
+        val dataTableOffset = buffer.getInt(0x0C)
+        val count = buffer.getInt(0x10)
+
         for (i in 0 until count) {
-            val kO = buffer.getShort(0x14 + (i * 16)).toInt() and 0xFFFF; val dO = buffer.getInt(0x14 + (i * 16) + 0x0C); val dL = buffer.getInt(0x14 + (i * 16) + 0x04)
-            val kB = StringBuilder(); var k = kTO + kO; while (data[k] != 0.toByte()) { kB.append(data[k].toInt().toChar()); k++ }
-            val key = kB.toString(); if (key == "TITLE" || key.startsWith("TITLE_")) { val s = dTO + dO; val nB = nuevoNombre.toByteArray(Charsets.UTF_8); for (j in 0 until dL) if (s + j < data.size) data[s + j] = 0; for (j in nB.indices) if (j < dL - 1 && (s + j) < data.size) data[s + j] = nB[j] }
+            val kO = buffer.getShort(0x14 + (i * 16)).toInt() and 0xFFFF
+            val maxLen = buffer.getInt(0x14 + (i * 16) + 0x08) // MAX Data Length (El espacio asignado, ej: 128)
+            val dO = buffer.getInt(0x14 + (i * 16) + 0x0C)
+
+            val kB = StringBuilder(); var k = keyTableOffset + kO
+            while (k < data.size && data[k] != 0.toByte()) { kB.append(data[k].toInt().toChar()); k++ }
+            val key = kB.toString()
+
+            // Filtro: Editar campos de título pero NUNCA el TITLE_ID
+            if (key.startsWith("TITLE") && key != "TITLE_ID") {
+                val startData = dataTableOffset + dO
+                val nameBytes = nuevoNombre.toByteArray(Charsets.UTF_8)
+
+                // 1. Limpiamos con ceros todo el bloque asignado para que no queden restos del nombre viejo
+                for (j in 0 until maxLen) {
+                    if (startData + j < data.size) data[startData + j] = 0
+                }
+
+                // 2. Escribimos el nuevo nombre sin pasarnos del límite físico del archivo
+                for (j in nameBytes.indices) {
+                    if (j < maxLen - 1 && (startData + j) < data.size) {
+                        data[startData + j] = nameBytes[j]
+                    }
+                }
+            }
         }
-        val ok = ftp.storeFile("/dev_hdd0/game/$carp/PARAM.SFO", ByteArrayInputStream(data)); ftp.disconnect(); ok
+
+        val ok = ftp.storeFile("/dev_hdd0/game/$carp/PARAM.SFO", ByteArrayInputStream(data))
+        ftp.disconnect()
+        ok
     } catch (e: Exception) { false }
 }
+
+// --- RESTO DE FUNCIONES ---
 
 fun guardarImagenEnGaleria(context: Context, bitmap: Bitmap, nombre: String) {
     val nombreArchivo = "${nombre.replace(".", "_")}_${System.currentTimeMillis()}.png"
