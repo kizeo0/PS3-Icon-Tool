@@ -63,6 +63,21 @@ Con esta herramienta, puedes cambiar iconos y fondos de pantalla del XMB directa
    <img width="1911" height="1008" alt="image" src="https://github.com/user-attachments/assets/5aad7920-8aa5-45c0-8fee-cac47cbe4002" />
 
 
+
+
+
+
+
+
+
+NUEVA ACTUALIZACIÓN PARA CAMBIAR NOMBRE Y ICONO HEN OFICIAL 
+TESTEADO EN 3.5.0  ( 4.92 - 4.93 )
+<img width="1920" height="1080" alt="0402yth" src="https://github.com/user-attachments/assets/867faa97-a894-4480-b378-b5303ad5d5f4" />
+
+
+
+
+
 🛠️ Requisitos
 
     Dispositivo Android con versión 7.0 o superior.
