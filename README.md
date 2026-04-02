@@ -70,8 +70,15 @@ Con esta herramienta, puedes cambiar iconos y fondos de pantalla del XMB directa
 
 
 
+
+
 NUEVA ACTUALIZACIÓN PARA CAMBIAR NOMBRE Y ICONO HEN OFICIAL 
 TESTEADO EN 3.5.0  ( 4.92 - 4.93 )
+
+
+
+
+
 <img width="720" height="480" alt="0402yth" src="https://github.com/user-attachments/assets/867faa97-a894-4480-b378-b5303ad5d5f4" />
 
 
